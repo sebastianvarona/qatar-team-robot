@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Footer from '../components/Footer';
-import background from '../images/background2.jpg';
+import background from '../images/qatarbg5.jpg';
 
 export default function Dashboard() {
   const [showUserD, setShowUserD] = useState(false);
