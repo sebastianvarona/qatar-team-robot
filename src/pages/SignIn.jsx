@@ -29,6 +29,7 @@ export default function SignIn() {
       .then(function (response) {
         console.log(response);
         if (response.data.status === 1) {
+          window.sessionStorage.setItem('userId', response.data.userId);
           navigate(`/dashboard`);
         }
         if (response.data.status === 2) {
