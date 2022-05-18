@@ -8,6 +8,8 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('');
   const [ranking, setRanking] = useState([]);
   const [aMatches, setAMatches] = useState([]);
+  const [pMatches, setPMatches] = useState([]);
+  const [cMatches, setCMatches] = useState([]);
 
   const styles = {
     header: {
@@ -101,6 +103,24 @@ export default function Dashboard() {
       url: 'https://sebasrestapi.azurewebsites.net/match',
     }).then(function (response) {
       setAMatches(response.data);
+    });
+
+    axios({
+      method: 'get',
+      url:
+        'https://sebasrestapi.azurewebsites.net/prediction/running/' +
+        window.sessionStorage.getItem('userId'),
+    }).then(function (response) {
+      setPMatches(response.data);
+    });
+
+    axios({
+      method: 'get',
+      url:
+        'https://sebasrestapi.azurewebsites.net/prediction/finished/' +
+        window.sessionStorage.getItem('userId'),
+    }).then(function (response) {
+      setCMatches(response.data);
     });
   }, []);
 
@@ -220,28 +240,52 @@ export default function Dashboard() {
           <div>
             <h4 className="text-4xl font-bold mb-8">Pending Matches</h4>
             <div className="grid grid-cols-1 grid-flow-row gap-4">
-              <div
-                className={`border rounded-2xl flex flex-col w-full gap-2 items-center p-4`}
-              >
-                <h3 className={`font-bold text-3xl`}>Group B</h3>
-                <div className={`flex gap-4`}>
-                  <label className="capitalize text-xl">argentina</label>
-                  <span className="text-xl">
-                    ( <span className="font-bold text-xl">2</span> )
-                  </span>
-                  <span className="font-bold flex items-center">VS</span>
-                  <span className="text-xl">
-                    ( <span className="font-bold text-xl">3</span> )
-                  </span>
-                  <label className="capitalize text-xl">Poland</label>
-                </div>
-                <div className={`flex flex-col gap-4`}>
-                  <button className="bg-orange-500 rounded-2xl px-4 py-2 capitalize">
-                    edit prediction
-                  </button>
-                  <span>11-12-2022 16:30</span>
-                </div>
-              </div>
+              {pMatches.map((m, i) => {
+                return (
+                  <div
+                    className={`border rounded-2xl flex flex-col w-full gap-2 items-center p-4`}
+                  >
+                    <h3 className={`font-bold text-3xl`}>{m.match.group}</h3>
+                    <div className={`flex gap-4`}>
+                      <label className="capitalize text-xl">
+                        {m.match.local}
+                      </label>
+                      <span className="text-xl">
+                        ({' '}
+                        <span className="font-bold text-xl">
+                          {m.prediction.local_goals}
+                        </span>{' '}
+                        )
+                      </span>
+                      <span className="font-bold flex items-center">VS</span>
+                      <span className="text-xl">
+                        ({' '}
+                        <span className="font-bold text-xl">
+                          {m.prediction.visit_goals}
+                        </span>{' '}
+                        )
+                      </span>
+                      <label className="capitalize text-xl">
+                        {m.match.visit}
+                      </label>
+                    </div>
+                    <div className={`flex flex-col gap-4`}>
+                      <button className="bg-orange-500 rounded-2xl px-4 py-2 capitalize">
+                        edit prediction
+                      </button>
+                      <span>
+                        {m.match.month +
+                          '-' +
+                          m.match.day +
+                          ' ' +
+                          m.match.hour +
+                          ':' +
+                          m.match.minutes}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
           <div>
