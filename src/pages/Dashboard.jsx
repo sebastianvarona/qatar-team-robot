@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Footer from '../components/Footer';
 import background from '../images/qatarbg5.jpg';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
   const [showUserD, setShowUserD] = useState(false);
@@ -18,6 +19,7 @@ export default function Dashboard() {
     },
   };
 
+  let navigate = useNavigate();
   const UserDropdown = () => {
     return (
       <>
@@ -58,7 +60,13 @@ export default function Dashboard() {
               showUserD ? '' : 'hidden'
             }`}
           >
-            <button className="block hover:bg-purple-700 py-2 px-4">
+            <button
+              onClick={() => {
+                window.sessionStorage.removeItem('userId');
+                navigate(`/sign-in`);
+              }}
+              className="block hover:bg-purple-700 py-2 px-4"
+            >
               logout
             </button>
           </div>
