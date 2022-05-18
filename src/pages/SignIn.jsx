@@ -28,12 +28,12 @@ export default function SignIn() {
       })
       .then(function (response) {
         console.log(response);
-        if (response.status === 200) {
+        if (response.data.status === 1) {
           navigate(`/dashboard`);
-        }
-        if (response.status === 401 || response.statusText === 'Unauthorized') {
-          setErrMes('Incorrect Credentials');
-          console.log('No Autorizado!!!');
+        } else if (response.data.status === 2) {
+          setErrMes('Incorrect password');
+        } else if (response.data.status === 3) {
+          setErrMes('User not found');
         }
       })
       .catch(function (error) {
