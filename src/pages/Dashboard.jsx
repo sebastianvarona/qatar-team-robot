@@ -287,49 +287,51 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 grid-flow-row gap-4">
               {pMatches.map((m, i) => {
                 if (m.prediction.isFinished === true) {
-                  <div
-                    key={i}
-                    className={`border rounded-2xl flex flex-col w-full gap-2 items-center p-4`}
-                  >
-                    <h3 className={`font-bold text-3xl`}>{m.match.group}</h3>
-                    <div className={`flex gap-4`}>
-                      <label className="capitalize text-xl">
-                        {m.match.local}
-                      </label>
-                      <span className="text-xl">
-                        ({' '}
-                        <span className="font-bold text-xl text-green-500">
-                          4
-                        </span>{' '}
-                        )
-                      </span>
-                      <span className="font-bold flex items-center">VS</span>
-                      <span className="text-xl">
-                        ({' '}
-                        <span className="font-bold text-xl text-red-500">
-                          1
-                        </span>{' '}
-                        )
-                      </span>
-                      <label className="capitalize text-xl">
-                        {m.match.visit}
-                      </label>
+                  return (
+                    <div
+                      key={i}
+                      className={`border rounded-2xl flex flex-col w-full gap-2 items-center p-4`}
+                    >
+                      <h3 className={`font-bold text-3xl`}>{m.match.group}</h3>
+                      <div className={`flex gap-4`}>
+                        <label className="capitalize text-xl">
+                          {m.match.local}
+                        </label>
+                        <span className="text-xl">
+                          ({' '}
+                          <span className="font-bold text-xl text-green-500">
+                            4
+                          </span>{' '}
+                          )
+                        </span>
+                        <span className="font-bold flex items-center">VS</span>
+                        <span className="text-xl">
+                          ({' '}
+                          <span className="font-bold text-xl text-red-500">
+                            1
+                          </span>{' '}
+                          )
+                        </span>
+                        <label className="capitalize text-xl">
+                          {m.match.visit}
+                        </label>
+                      </div>
+                      <div className={`flex flex-col gap-4`}>
+                        <span>
+                          {m.match.month +
+                            '-' +
+                            m.match.day +
+                            ' ' +
+                            m.match.hour +
+                            ':' +
+                            m.match.minutes}
+                        </span>
+                        <span className="text-2xl font-black">
+                          {m.prediction.totalPoints}
+                        </span>
+                      </div>
                     </div>
-                    <div className={`flex flex-col gap-4`}>
-                      <span>
-                        {m.match.month +
-                          '-' +
-                          m.match.day +
-                          ' ' +
-                          m.match.hour +
-                          ':' +
-                          m.match.minutes}
-                      </span>
-                      <span className="text-2xl font-black">
-                        {m.prediction.totalPoints}
-                      </span>
-                    </div>
-                  </div>;
+                  );
                 }
               })}
             </div>
