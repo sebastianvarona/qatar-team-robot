@@ -30,7 +30,8 @@ export default function SignIn() {
         console.log(response);
         if (response.status === 200) {
           navigate(`/dashboard`);
-        } else if (response.status === 401) {
+        }
+        if (response.status === 401 || response.statusText === 'Unauthorized') {
           setErrMes('Incorrect Credentials');
           console.log('No Autorizado!!!');
         }
