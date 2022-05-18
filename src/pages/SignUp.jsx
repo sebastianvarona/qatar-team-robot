@@ -3,6 +3,7 @@ import background from '../images/qatarbg4.jpg';
 import { Link } from 'react-router-dom';
 import LandingLayout from '../components/LandingLayout';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
   const [fn, setFN] = useState('');
@@ -14,6 +15,8 @@ export default function SignUp() {
       backgroundImage: `url(${background})`,
     },
   };
+
+  let navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(fn);
@@ -29,6 +32,9 @@ export default function SignUp() {
       })
       .then(function (response) {
         console.log(response);
+        if (response.status === 201) {
+          navigate(`/dashboard`);
+        }
       })
       .catch(function (error) {
         console.log(error);
