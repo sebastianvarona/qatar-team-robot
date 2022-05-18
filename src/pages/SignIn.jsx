@@ -9,7 +9,6 @@ import Alert from '../components/Alert';
 export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [alert, setAlert] = useState(false);
   const styles = {
     background: {
       backgroundImage: `url(${background})`,
@@ -40,7 +39,7 @@ export default function SignIn() {
       });
   };
   const showAlert = () => {
-    return <Alert visible={alert} msg={'Datos ingresados incorrectos'} />;
+    return <Alert visible={true} msg={'Datos ingresados incorrectos'} />;
   };
   return (
     <LandingLayout>
