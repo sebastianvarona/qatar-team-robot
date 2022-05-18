@@ -32,6 +32,7 @@ export default function SignIn() {
           navigate(`/dashboard`);
         } else if (response.status === 401) {
           setErrMes('Incorrect Credentials');
+          console.log('No Autorizado!!!');
         }
       })
       .catch(function (error) {
