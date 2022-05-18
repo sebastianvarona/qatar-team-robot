@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import LandingLayout from '../components/LandingLayout';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Alert from '../components/Alert';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
