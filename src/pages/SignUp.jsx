@@ -33,7 +33,7 @@ export default function SignUp() {
       .then(function (response) {
         console.log(response);
         if (response.status === 201) {
-          navigate(`/dashboard`);
+          navigate(`/sign-in`);
         }
       })
       .catch(function (error) {

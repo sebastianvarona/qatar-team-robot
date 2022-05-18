@@ -2,17 +2,37 @@ import React, { useState } from 'react';
 import background from '../images/qatarbg3.jpg';
 import { Link } from 'react-router-dom';
 import LandingLayout from '../components/LandingLayout';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function SignIn() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const styles = {
     background: {
       backgroundImage: `url(${background})`,
     },
   };
+
+  let navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(email);
+    console.log(password);
+    axios
+      .post('https://sebasrestapi.azurewebsites.net/login', {
+        email: email,
+        pwd: password,
+      })
+      .then(function (response) {
+        console.log(response);
+        if (response.status === 201) {
+          navigate(`/dashboard`);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
   return (
     <LandingLayout>
@@ -39,15 +59,15 @@ export default function SignIn() {
                     htmlFor="username"
                     className={`text-xl font-semibold text-white/75 mb-3`}
                   >
-                    Username:
+                    Email:
                   </label>
                   <input
                     type="text"
-                    name="username"
-                    id="username"
-                    placeholder="Type your username..."
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    name="email"
+                    id="email"
+                    placeholder="Type your email..."
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className={`rounded-xl bg-transparent text-white/75 border-white/75 placeholder:text-white/75 w-full mb-4`}
                   />
                 </div>
@@ -82,17 +102,6 @@ export default function SignIn() {
                     </span>{' '}
                   </Link>
                 </span>
-                {/* <span className={`block`}>
-                  Want to be a creator?{" "}
-                  <Link to={"/sign-up"}>
-                    {" "}
-                    <span
-                      className={`underline underline-offset-4 text-white/50 ml-4 hover:text-white transition`}
-                    >
-                      Creator register here
-                    </span>{" "}
-                  </Link>
-                </span> */}
               </div>
               <div className={`text-xl`}>
                 <button
