@@ -30,7 +30,6 @@ export default function SignIn() {
         if (response.status === 200) {
           navigate(`/dashboard`);
         } else if (response.status === 401) {
-          setAlert(true);
           showAlert();
         }
       })
