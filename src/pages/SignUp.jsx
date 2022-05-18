@@ -20,17 +20,19 @@ export default function SignUp() {
     console.log(ln);
     console.log(email);
     console.log(password);
-    axios({
-      method: 'post',
-      url: 'https://sebasrestapi.azurewebsites.net/user',
-      headers: {},
-      data: {
+    axios
+      .post('https://sebasrestapi.azurewebsites.net/user', {
         name: fn,
         last_name: ln,
         email: email,
         pwd: password,
-      },
-    });
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
   return (
     <LandingLayout>
