@@ -299,16 +299,28 @@ export default function Dashboard() {
                         </label>
                         <span className="text-xl">
                           ({' '}
-                          <span className="font-bold text-xl text-green-500">
-                            4
+                          <span
+                            className={`font-bold text-xl ${
+                              m.prediction.isLocalGoalsGuessed
+                                ? 'text-green-500'
+                                : 'text-red-500'
+                            }`}
+                          >
+                            {m.prediction.local_goals}
                           </span>{' '}
                           )
                         </span>
                         <span className="font-bold flex items-center">VS</span>
                         <span className="text-xl">
                           ({' '}
-                          <span className="font-bold text-xl text-red-500">
-                            1
+                          <span
+                            className={`font-bold text-xl ${
+                              m.prediction.isVisitGoalsGuessed
+                                ? 'text-green-500'
+                                : 'text-red-500'
+                            }`}
+                          >
+                            {m.prediction.visit_goals}
                           </span>{' '}
                           )
                         </span>
