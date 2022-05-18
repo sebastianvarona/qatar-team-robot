@@ -30,9 +30,11 @@ export default function SignIn() {
         console.log(response);
         if (response.data.status === 1) {
           navigate(`/dashboard`);
-        } else if (response.data.status === 2) {
+        }
+        if (response.data.status === 2) {
           setErrMes('Incorrect password');
-        } else if (response.data.status === 3) {
+        }
+        if (response.data.status === 3) {
           setErrMes('User not found');
         }
       })
