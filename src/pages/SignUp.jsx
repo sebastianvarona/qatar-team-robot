@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import background from '../images/qatarbg4.jpg';
 import { Link } from 'react-router-dom';
 import LandingLayout from '../components/LandingLayout';
+import axios from 'axios';
 
 export default function SignUp() {
   const [fn, setFN] = useState('');
-  const [username, setUsername] = useState('');
+  const [ln, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const styles = {
@@ -16,9 +17,20 @@ export default function SignUp() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(fn);
-    console.log(username);
+    console.log(ln);
     console.log(email);
     console.log(password);
+    axios({
+      method: 'post',
+      url: 'https://sebasrestapi.azurewebsites.net/user',
+      headers: {},
+      data: {
+        name: fn,
+        last_name: ln,
+        email: email,
+        pwd: password,
+      },
+    });
   };
   return (
     <LandingLayout>
@@ -40,35 +52,35 @@ export default function SignUp() {
               <div
                 className={`w-full grid grid-cols-3 grid-flow-row gap-8 mt-8`}
               >
-                {/* Full Name */}
+                {/* FName */}
                 <label
                   htmlFor="fn"
                   className={`text-xl font-semibold text-white/75 text-right col-span-1 mb-3`}
                 >
-                  Full Name:
+                  Name:
                 </label>
                 <input
                   type="text"
                   name="fn"
                   id="fn"
-                  placeholder="Type your Full Name..."
+                  placeholder="Type your first name..."
                   value={fn}
                   onChange={(e) => setFN(e.target.value)}
                   className={`rounded-xl bg-transparent text-white/75 border-white/75 placeholder:text-white/75 w-full col-span-2`}
                 />
-                {/* Username */}
+                {/* LName */}
                 <label
-                  htmlFor="username"
+                  htmlFor="ln"
                   className={`text-xl font-semibold text-white/75 text-right col-span-1 mb-3`}
                 >
-                  Username:
+                  Last Name:
                 </label>
                 <input
                   type="text"
-                  name="username"
-                  id="username"
-                  placeholder="Type your username..."
-                  value={username}
+                  name="ln"
+                  id="ln"
+                  placeholder="Type your last name..."
+                  value={ln}
                   onChange={(e) => setUsername(e.target.value)}
                   className={`rounded-xl bg-transparent text-white/75 border-white/75 placeholder:text-white/75 w-full col-span-2`}
                 />
@@ -118,23 +130,12 @@ export default function SignUp() {
                     </span>{' '}
                   </Link>
                 </span>
-                {/* <span className={`block mb-2`}>
-                  Register as a creator?{" "}
-                  <Link to={"/creator-sign-up"}>
-                    {" "}
-                    <span
-                      className={`underline underline-offset-4 text-white/50 ml-4 hover:text-white transition`}
-                    >
-                      Click here
-                    </span>{" "}
-                  </Link>
-                </span> */}
               </div>
               <div className={`text-xl`}>
                 <button
                   className={`bg-purple-600/75 hover:bg-purple-600 transition py-1 px-10 rounded-xl font-semibold mt-8`}
                 >
-                  Login
+                  Create account
                 </button>
               </div>
             </form>
