@@ -9,7 +9,6 @@ export default function Dashboard() {
   const [ranking, setRanking] = useState([]);
   const [aMatches, setAMatches] = useState([]);
   const [pMatches, setPMatches] = useState([]);
-  const [cMatches, setCMatches] = useState([]);
 
   const styles = {
     header: {
@@ -112,15 +111,7 @@ export default function Dashboard() {
         window.sessionStorage.getItem('userId'),
     }).then(function (response) {
       setPMatches(response.data);
-    });
-
-    axios({
-      method: 'get',
-      url:
-        'https://sebasrestapi.azurewebsites.net/prediction/finished/' +
-        window.sessionStorage.getItem('userId'),
-    }).then(function (response) {
-      setCMatches(response.data);
+      console.log(response.data);
     });
   }, []);
 
