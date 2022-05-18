@@ -8,6 +8,7 @@ import axios from 'axios';
 export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [alert, setAlert] = useState(false);
   const styles = {
     background: {
       backgroundImage: `url(${background})`,
@@ -26,13 +27,19 @@ export default function SignIn() {
       })
       .then(function (response) {
         console.log(response);
-        if (response.status === 201) {
+        if (response.status === 200) {
           navigate(`/dashboard`);
+        } else if (response.status === 401) {
+          setAlert(true);
+          showAlert();
         }
       })
       .catch(function (error) {
         console.log(error);
       });
+  };
+  const showAlert = () => {
+    return <Alert visible={alert} msg={'Datos ingresados incorrectos'} />;
   };
   return (
     <LandingLayout>
