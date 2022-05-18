@@ -241,8 +241,63 @@ export default function Dashboard() {
             <h4 className="text-4xl font-bold mb-8">Pending Matches</h4>
             <div className="grid grid-cols-1 grid-flow-row gap-4">
               {pMatches.map((m, i) => {
-                return (
+                if (m.prediction.isFinished === false) {
+                  return (
+                    <div
+                      key={i}
+                      className={`border rounded-2xl flex flex-col w-full gap-2 items-center p-4`}
+                    >
+                      <h3 className={`font-bold text-3xl`}>{m.match.group}</h3>
+                      <div className={`flex gap-4`}>
+                        <label className="capitalize text-xl">
+                          {m.match.local}
+                        </label>
+                        <span className="text-xl">
+                          ({' '}
+                          <span className="font-bold text-xl">
+                            {m.prediction.local_goals}
+                          </span>{' '}
+                          )
+                        </span>
+                        <span className="font-bold flex items-center">VS</span>
+                        <span className="text-xl">
+                          ({' '}
+                          <span className="font-bold text-xl">
+                            {m.prediction.visit_goals}
+                          </span>{' '}
+                          )
+                        </span>
+                        <label className="capitalize text-xl">
+                          {m.match.visit}
+                        </label>
+                      </div>
+                      <div className={`flex flex-col gap-4`}>
+                        <button className="bg-orange-500 rounded-2xl px-4 py-2 capitalize">
+                          edit prediction
+                        </button>
+                        <span>
+                          {m.match.month +
+                            '-' +
+                            m.match.day +
+                            ' ' +
+                            m.match.hour +
+                            ':' +
+                            m.match.minutes}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                }
+              })}
+            </div>
+          </div>
+          <div>
+            <h4 className="text-4xl font-bold mb-8">Completed Matches</h4>
+            <div className="grid grid-cols-1 grid-flow-row gap-4">
+              {pMatches.map((m, i) => {
+                if (m.prediction.isFinished === true) {
                   <div
+                    key={i}
                     className={`border rounded-2xl flex flex-col w-full gap-2 items-center p-4`}
                   >
                     <h3 className={`font-bold text-3xl`}>{m.match.group}</h3>
@@ -252,16 +307,16 @@ export default function Dashboard() {
                       </label>
                       <span className="text-xl">
                         ({' '}
-                        <span className="font-bold text-xl">
-                          {m.prediction.local_goals}
+                        <span className="font-bold text-xl text-green-500">
+                          4
                         </span>{' '}
                         )
                       </span>
                       <span className="font-bold flex items-center">VS</span>
                       <span className="text-xl">
                         ({' '}
-                        <span className="font-bold text-xl">
-                          {m.prediction.visit_goals}
+                        <span className="font-bold text-xl text-red-500">
+                          1
                         </span>{' '}
                         )
                       </span>
@@ -270,9 +325,6 @@ export default function Dashboard() {
                       </label>
                     </div>
                     <div className={`flex flex-col gap-4`}>
-                      <button className="bg-orange-500 rounded-2xl px-4 py-2 capitalize">
-                        edit prediction
-                      </button>
                       <span>
                         {m.match.month +
                           '-' +
@@ -282,38 +334,13 @@ export default function Dashboard() {
                           ':' +
                           m.match.minutes}
                       </span>
+                      <span className="text-2xl font-black">
+                        {m.prediction.totalPoints}
+                      </span>
                     </div>
-                  </div>
-                );
+                  </div>;
+                }
               })}
-            </div>
-          </div>
-          <div>
-            <h4 className="text-4xl font-bold mb-8">Completed Matches</h4>
-            <div className="grid grid-cols-1 grid-flow-row gap-4">
-              <div
-                className={`border rounded-2xl flex flex-col w-full gap-2 items-center p-4`}
-              >
-                <h3 className={`font-bold text-3xl`}>Group H</h3>
-                <div className={`flex gap-4`}>
-                  <label className="capitalize text-xl">germany</label>
-                  <span className="text-xl">
-                    ({' '}
-                    <span className="font-bold text-xl text-green-500">4</span>{' '}
-                    )
-                  </span>
-                  <span className="font-bold flex items-center">VS</span>
-                  <span className="text-xl">
-                    ( <span className="font-bold text-xl text-red-500">1</span>{' '}
-                    )
-                  </span>
-                  <label className="capitalize text-xl">poland</label>
-                </div>
-                <div className={`flex flex-col gap-4`}>
-                  <span>11-12-2022 16:30</span>
-                  <span className="text-2xl font-black">Score 2</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
