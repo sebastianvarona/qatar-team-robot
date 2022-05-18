@@ -9,6 +9,7 @@ import Alert from '../components/Alert';
 export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errMes, setErrMes] = useState('');
   const styles = {
     background: {
       backgroundImage: `url(${background})`,
@@ -30,7 +31,7 @@ export default function SignIn() {
         if (response.status === 200) {
           navigate(`/dashboard`);
         } else if (response.status === 401) {
-          showAlert();
+          setErrMes('Incorrect Credentials');
         }
       })
       .catch(function (error) {
@@ -97,6 +98,7 @@ export default function SignIn() {
               </div>
               {/* SPANS */}
               <div className={`flex flex-col items-start mt-8`}>
+                <span className={`block mb-2`}>{errMes}</span>
                 <span className={`block mb-2`}>
                   Don't have an account yet?{' '}
                   <Link to={'/sign-up'}>
