@@ -85,6 +85,7 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
+    console.log(window.sessionStorage.getItem('userId'));
     axios({
       method: 'get',
       url: 'https://sebasrestapi.azurewebsites.net/user',
