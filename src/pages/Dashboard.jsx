@@ -349,7 +349,7 @@ export default function Dashboard() {
                         </label>
                         <input
                           onChange={(e) => {
-                            setPuntosVisitante(e.target.value);
+                            setPuntosLocal(e.target.value);
                           }}
                           defaultValue={m.prediction.local_goals}
                           type="text"
