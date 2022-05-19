@@ -83,6 +83,13 @@ export default function Dashboard() {
       <button
         onClick={() => {
           setActiveTab(props.text);
+          if (activeTab === 'ranking') {
+            getRanking();
+          } else if (activeTab === 'matches') {
+            getMatches();
+          } else if (activeTab === 'history') {
+            getPMatches();
+          }
         }}
         className={`rounded-lg px-4 py-1 capitalize font-semibold hover:bg-purple-500/50 transition ${
           activeTab === props.text
@@ -93,6 +100,39 @@ export default function Dashboard() {
         {props.text}
       </button>
     );
+  };
+
+  const getRanking = () => {
+    axios({
+      method: 'get',
+      url: 'https://sebasrestapi.azurewebsites.net/user',
+    }).then(function (response) {
+      setRanking(
+        response.data.sort(function (a, b) {
+          return b.points - a.points;
+        })
+      );
+    });
+  };
+
+  const getMatches = () => {
+    axios({
+      method: 'get',
+      url: 'https://sebasrestapi.azurewebsites.net/match',
+    }).then(function (response) {
+      setAMatches(response.data);
+    });
+  };
+
+  const getPMatches = () => {
+    axios({
+      method: 'get',
+      url:
+        'https://sebasrestapi.azurewebsites.net/prediction/running/' +
+        window.sessionStorage.getItem('userId'),
+    }).then(function (response) {
+      setPMatches(response.data);
+    });
   };
 
   const createPrediction = (m) => {
@@ -117,31 +157,9 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    axios({
-      method: 'get',
-      url: 'https://sebasrestapi.azurewebsites.net/user',
-    }).then(function (response) {
-      setRanking(
-        response.data.sort(function (a, b) {
-          return b.points - a.points;
-        })
-      );
-    });
-    axios({
-      method: 'get',
-      url: 'https://sebasrestapi.azurewebsites.net/match',
-    }).then(function (response) {
-      setAMatches(response.data);
-    });
-
-    axios({
-      method: 'get',
-      url:
-        'https://sebasrestapi.azurewebsites.net/prediction/running/' +
-        window.sessionStorage.getItem('userId'),
-    }).then(function (response) {
-      setPMatches(response.data);
-    });
+    getRanking();
+    getMatches();
+    getPMatches();
   }, []);
 
   return (
