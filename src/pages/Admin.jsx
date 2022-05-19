@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Footer from '../components/Footer';
 import background from '../images/qatarbg5.jpg';
+import axios from 'axios';
 
 export default function Admin() {
   const [showUserD, setShowUserD] = useState(false);
