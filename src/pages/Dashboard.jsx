@@ -83,7 +83,6 @@ export default function Dashboard() {
       <button
         onClick={() => {
           setActiveTab(props.text);
-          console.log(ranking);
         }}
         className={`rounded-lg px-4 py-1 capitalize font-semibold hover:bg-purple-500/50 transition ${
           activeTab === props.text
@@ -97,7 +96,6 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    console.log(window.sessionStorage.getItem('userId'));
     axios({
       method: 'get',
       url: 'https://sebasrestapi.azurewebsites.net/user',
@@ -122,7 +120,6 @@ export default function Dashboard() {
         window.sessionStorage.getItem('userId'),
     }).then(function (response) {
       setPMatches(response.data);
-      console.log(response.data);
     });
   }, []);
 
@@ -196,12 +193,12 @@ export default function Dashboard() {
           </table>
         </div>
         {/* Matches */}
+        <span className={`my-4`}>{msgMatches}</span>
         <div
           className={`grid grid-cols-3 grid-flow-row gap-6 w-full ${
             activeTab === 'matches' ? '' : 'hidden'
           }`}
         >
-          <span className={`my-4`}>{msgMatches}</span>
           {aMatches.map((m, i) => {
             return (
               <div
