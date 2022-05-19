@@ -10,6 +10,7 @@ export default function Dashboard() {
   const [ranking, setRanking] = useState([]);
   const [aMatches, setAMatches] = useState([]);
   const [pMatches, setPMatches] = useState([]);
+  const [cMatches, setCMatches] = useState([]);
   const [puntosLocal, setPuntosLocal] = useState(0);
   const [puntosVisitante, setPuntosVisitante] = useState(0);
   const [msgMatches, setMsgMatches] = useState('');
@@ -135,6 +136,16 @@ export default function Dashboard() {
       setPMatches(response.data);
     });
   };
+  const getCMatches = () => {
+    axios({
+      method: 'get',
+      url:
+        'https://sebasrestapi.azurewebsites.net/prediction/finished/' +
+        window.sessionStorage.getItem('userId'),
+    }).then(function (response) {
+      setCMatches(response.data);
+    });
+  };
 
   const createPrediction = (m) => {
     axios
@@ -205,6 +216,7 @@ export default function Dashboard() {
     getRanking();
     getMatches();
     getPMatches();
+    getCMatches();
   }, []);
 
   return (
@@ -410,7 +422,7 @@ export default function Dashboard() {
           <div>
             <h4 className="text-4xl font-bold mb-8">Completed Matches</h4>
             <div className="grid grid-cols-1 grid-flow-row gap-4">
-              {pMatches.map((m, i) => {
+              {cMatches.map((m, i) => {
                 if (m.prediction.isFinished === true) {
                   return (
                     <div
