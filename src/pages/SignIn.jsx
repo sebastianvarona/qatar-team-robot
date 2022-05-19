@@ -44,9 +44,6 @@ export default function SignIn() {
         console.log(error);
       });
   };
-  const showAlert = () => {
-    return <Alert visible={true} msg={'Datos ingresados incorrectos'} />;
-  };
   return (
     <LandingLayout>
       <div className={`h-screen pt-20 px-12 relative mb-20`}>

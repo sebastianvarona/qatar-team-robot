@@ -10,6 +10,9 @@ export default function Dashboard() {
   const [ranking, setRanking] = useState([]);
   const [aMatches, setAMatches] = useState([]);
   const [pMatches, setPMatches] = useState([]);
+  const [puntosLocal, setPuntosLocal] = useState(0);
+  const [puntosVisitante, setPuntosVisitante] = useState(0);
+  const [msgMatches, setMsgMatches] = useState('');
 
   const styles = {
     header: {
@@ -198,6 +201,7 @@ export default function Dashboard() {
             activeTab === 'matches' ? '' : 'hidden'
           }`}
         >
+          <span className={`my-4`}>{msgMatches}</span>
           {aMatches.map((m, i) => {
             return (
               <div
@@ -208,18 +212,47 @@ export default function Dashboard() {
                 <div className={`flex gap-4`}>
                   <label className="capitalize text-xl">{m.local}</label>
                   <input
+                    onChange={(e) => {
+                      setPuntosLocal(e.target.value);
+                    }}
                     type="text"
                     className="bg-neutral-800 rounded-xl h-8 w-12 text-center"
                   />
                   <span className="font-bold flex items-center">VS</span>
                   <input
+                    onChange={(e) => {
+                      setPuntosVisitante(e.target.value);
+                    }}
                     type="text"
                     className="bg-neutral-800 rounded-xl h-8 w-12 text-center"
                   />
                   <label className="capitalize text-xl">{m.visit}</label>
                 </div>
                 <div className={`flex flex-col gap-4`}>
-                  <button className="bg-green-500 rounded-2xl px-4 py-2 capitalize">
+                  <button
+                    onClick={() => {
+                      axios
+                        .post(
+                          'https://sebasrestapi.azurewebsites.net/prediction',
+                          {
+                            matchId: m._id,
+                            userId: window.sessionStorage.getItem('userId'),
+                            local_goals: puntosLocal,
+                            visit_goals: puntosVisitante,
+                          }
+                        )
+                        .then(function (response) {
+                          console.log(response);
+                          if (response.status === 201) {
+                            setMsgMatches('Created successfully');
+                          }
+                        })
+                        .catch(function (error) {
+                          console.log(error);
+                        });
+                    }}
+                    className="bg-green-500 rounded-2xl px-4 py-2 capitalize"
+                  >
                     apply prediction
                   </button>
                   <span>
