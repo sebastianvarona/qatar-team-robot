@@ -6,6 +6,7 @@ import axios from 'axios';
 export default function Admin() {
   const [showUserD, setShowUserD] = useState(false);
   const [showGroupD, setShowGroupD] = useState(false);
+  const [aMatches, setAMatches] = useState([]);
   const [group, setGroup] = useState('');
   const [local, setLocal] = useState('');
   const [visitante, setVisitante] = useState('');
@@ -13,6 +14,8 @@ export default function Admin() {
   const [dia, setDia] = useState(0);
   const [horas, setHoras] = useState(0);
   const [minutos, setMinutos] = useState(0);
+  const [lg, setLG] = useState(0);
+  const [vg, setVG] = useState(0);
   const [msg, setMsg] = useState('');
 
   const styles = {
@@ -182,12 +185,51 @@ export default function Admin() {
       .then(function (response) {
         console.log(response);
         if (response.status === 201) {
+          setMsg('Registrado correctamente');
         }
       })
       .catch(function (error) {
         console.log(error);
       });
   };
+
+  const getMatches = () => {
+    axios({
+      method: 'get',
+      url: 'https://sebasrestapi.azurewebsites.net/match',
+    }).then(function (response) {
+      setAMatches(response.data);
+    });
+  };
+  const endMatch = (m) => {
+    axios
+      .post('https://sebasrestapi.azurewebsites.net/match/finish', {
+        _id: m._id,
+        local: local,
+        visit: visitante,
+        day: dia,
+        month: mes,
+        hour: horas,
+        minutes: minutos,
+        group: group,
+        local_goals: lg,
+        visit_goals: vg,
+        is_finished: true,
+      })
+      .then(function (response) {
+        console.log(response);
+        if (response.status === 201) {
+          setMsg('Registrado correctamente');
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getMatches();
+  }, []);
 
   return (
     <div className="mx-auto">
@@ -300,62 +342,52 @@ export default function Admin() {
             <div className={`w-full`}>
               <table class="table-auto text-left">
                 <tbody>
-                  <tr>
-                    <td className={`px-8 py-2`}>1</td>
-                    <td className={`px-8 py-2`}>
-                      <div className={`w-full gap-4 items-center`}>
-                        <div className={`flex gap-4`}>
-                          <label className="capitalize text-xl">
-                            argentina
-                          </label>
-                          <input
-                            type="text"
-                            className="bg-neutral-800 rounded-xl h-8 w-12 text-center"
-                          />
-                          <span className="font-bold flex items-center">
-                            VS
-                          </span>
-                          <input
-                            type="text"
-                            className="bg-neutral-800 rounded-xl h-8 w-12 text-center"
-                          />
-                          <label className="capitalize text-xl">poland</label>
-                        </div>
-                      </div>
-                    </td>
-                    <td className={`px-8 py-2`}>
-                      <button className="bg-green-500 rounded-2xl px-4 py-2 capitalize">
-                        apply
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={`px-8 py-2`}>2</td>
-                    <td className={`px-8 py-2`}>
-                      <div className={`w-full gap-4 items-center`}>
-                        <div className={`flex gap-4`}>
-                          <label className="capitalize text-xl">Germany</label>
-                          <input
-                            type="text"
-                            className="bg-neutral-800 rounded-xl h-8 w-12 text-center"
-                          />
-                          <span className="font-bold flex items-center">
-                            VS
-                          </span>
-                          <input
-                            type="text"
-                            className="bg-neutral-800 rounded-xl h-8 w-12 text-center"
-                          />
-                          <label className="capitalize text-xl">Spain</label>
-                        </div>
-                      </div>
-                    </td>
-                    <td className={`px-8 py-2`}>
-                      <button className="bg-green-500 rounded-2xl px-4 py-2 capitalize">
-                        apply
-                      </button>
-                    </td>
-                  </tr>
+                  {aMatches.map((m, i) => {
+                    return (
+                      <tr>
+                        <td className={`px-8 py-2`}>{i + 1}</td>
+                        <td className={`px-8 py-2`}>
+                          <div className={`w-full gap-4 items-center`}>
+                            <div className={`flex gap-4`}>
+                              <label className="capitalize text-xl">
+                                {m.local}
+                              </label>
+                              <input
+                                onChange={(e) => {
+                                  setLG(e.target.value);
+                                }}
+                                type="text"
+                                className="bg-neutral-800 rounded-xl h-8 w-12 text-center"
+                              />
+                              <span className="font-bold flex items-center">
+                                VS
+                              </span>
+                              <input
+                                onChange={(e) => {
+                                  setVG(e.target.value);
+                                }}
+                                type="text"
+                                className="bg-neutral-800 rounded-xl h-8 w-12 text-center"
+                              />
+                              <label className="capitalize text-xl">
+                                {m.visit}
+                              </label>
+                            </div>
+                          </div>
+                        </td>
+                        <td className={`px-8 py-2`}>
+                          <button
+                            onClick={() => {
+                              endMatch(m);
+                            }}
+                            className="bg-green-500 rounded-2xl px-4 py-2 capitalize"
+                          >
+                            apply
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
