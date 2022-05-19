@@ -107,6 +107,8 @@ export default function Dashboard() {
         console.log(response);
         if (response.status === 201) {
           setMsgMatches('Created successfully');
+        } else if (response.status === 404) {
+          setMsgMatches(response.data.message);
         }
       })
       .catch(function (error) {
