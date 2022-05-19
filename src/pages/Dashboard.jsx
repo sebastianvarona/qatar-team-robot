@@ -83,6 +83,7 @@ export default function Dashboard() {
       <button
         onClick={() => {
           setActiveTab(props.text);
+          setMsgMatches('');
           if (activeTab === 'ranking') {
             getRanking();
           } else if (activeTab === 'matches') {
@@ -128,7 +129,7 @@ export default function Dashboard() {
     axios({
       method: 'get',
       url:
-        'https://sebasrestapi.azurewebsites.net/prediction/running/' +
+        'https://sebasrestapi.azurewebsites.net/prediction/' +
         window.sessionStorage.getItem('userId'),
     }).then(function (response) {
       setPMatches(response.data);
@@ -136,6 +137,46 @@ export default function Dashboard() {
   };
 
   const createPrediction = (m) => {
+    axios
+      .post('https://sebasrestapi.azurewebsites.net/prediction', {
+        matchId: m._id,
+        userId: window.sessionStorage.getItem('userId'),
+        local_goals: puntosLocal,
+        visit_goals: puntosVisitante,
+      })
+      .then(function (response) {
+        console.log(response);
+        if (response.status === 201) {
+          setMsgMatches('Created successfully');
+        } else if (response.status === 404) {
+          setMsgMatches(response.data.message);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+  const deletePrediction = (m) => {
+    axios
+      .delete(
+        'https://sebasrestapi.azurewebsites.net/prediction/running/' +
+          m.prediction._id,
+        {}
+      )
+      .then(function (response) {
+        console.log(response);
+        if (response.status === 200) {
+          setMsgMatches('Prediccion eliminada correctamente');
+          getPMatches();
+        } else {
+          setMsgMatches('Hubo un error eliminando prediccion');
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+  const putPrediction = (m) => {
     axios
       .post('https://sebasrestapi.azurewebsites.net/prediction', {
         matchId: m._id,
