@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Footer from '../components/Footer';
 import background from '../images/qatarbg5.jpg';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function Admin() {
   const [showUserD, setShowUserD] = useState(false);
@@ -26,6 +27,7 @@ export default function Admin() {
     },
   };
 
+  let navigate = useNavigate();
   const UserDropdown = () => {
     return (
       <>
