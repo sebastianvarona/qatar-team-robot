@@ -235,6 +235,14 @@ export default function Admin() {
         console.log(error);
       });
   };
+  const deleteMatch = (m) => {
+    axios({
+      method: 'delete',
+      url: 'https://sebasrestapi.azurewebsites.net/match/' + m._id,
+    }).then(function (response) {
+      getMatches();
+    });
+  };
 
   useEffect(() => {
     getMatches();
@@ -389,9 +397,17 @@ export default function Admin() {
                             onClick={() => {
                               endMatch(m);
                             }}
-                            className="bg-green-500 rounded-2xl px-4 py-2 capitalize"
+                            className="bg-green-500 rounded-xl px-2 py-1 capitalize"
                           >
                             apply
+                          </button>
+                          <button
+                            onClick={() => {
+                              deleteMatch(m);
+                            }}
+                            className="bg-red-500 rounded-xl ml-2 px-2 py-1 capitalize"
+                          >
+                            delete
                           </button>
                         </td>
                       </tr>
