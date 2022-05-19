@@ -6,6 +6,13 @@ export default function Admin() {
   const [showUserD, setShowUserD] = useState(false);
   const [showGroupD, setShowGroupD] = useState(false);
   const [group, setGroup] = useState('');
+  const [local, setLocal] = useState('');
+  const [visitante, setVisitante] = useState('');
+  const [mes, setMes] = useState(0);
+  const [dia, setDia] = useState(0);
+  const [horas, setHoras] = useState(0);
+  const [minutos, setMinutos] = useState(0);
+  const [msg, setMsg] = useState('');
 
   const styles = {
     header: {
@@ -160,6 +167,27 @@ export default function Admin() {
     );
   };
 
+  const handleSubmit = () => {
+    axios
+      .post('https://sebasrestapi.azurewebsites.net/match', {
+        local: local,
+        visit: visitante,
+        day: dia,
+        month: mes,
+        hour: horas,
+        minutes: minutos,
+        group: group,
+      })
+      .then(function (response) {
+        console.log(response);
+        if (response.status === 201) {
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   return (
     <div className="mx-auto">
       {/* Header */}
@@ -201,38 +229,68 @@ export default function Admin() {
             <GroupDropdown />
             <div className={`flex gap-4`}>
               <input
+                onChange={(e) => {
+                  setLocal(e.target.value);
+                }}
                 type="text"
                 className="bg-neutral-800 rounded-xl h-8 w-36 text-center"
               />
               <span className="font-bold flex items-center">VS</span>
               <input
+                onChange={(e) => {
+                  setVisitante(e.target.value);
+                }}
                 type="text"
                 className="bg-neutral-800 rounded-xl h-8 w-36 text-center"
               />
             </div>
             <div className={`flex gap-4`}>
-              <label className="flex items-center">Fecha</label>
+              <label className="flex items-center">Mes</label>
               <input
-                type="date"
-                name="date"
-                id="date"
-                className="bg-neutral-800 rounded-xl h-8"
+                onChange={(e) => {
+                  setMes(e.target.value);
+                }}
+                type="text"
+                className="bg-neutral-800 rounded-xl h-8 w-12 text-center"
+              />
+              <label className="flex items-center">Dia</label>
+              <input
+                onChange={(e) => {
+                  setDia(e.target.value);
+                }}
+                type="text"
+                className="bg-neutral-800 rounded-xl h-8 w-12 text-center"
               />
             </div>
             <div className={`flex gap-4`}>
-              <label className="flex items-center">Hora</label>
+              <label className="flex items-center">Horas</label>
               <input
-                type="time"
-                name="time"
-                id="time"
-                className="bg-neutral-800 rounded-xl h-8"
+                onChange={(e) => {
+                  setHoras(e.target.value);
+                }}
+                type="text"
+                className="bg-neutral-800 rounded-xl h-8 w-12 text-center"
+              />
+              <label className="flex items-center">Minutos</label>
+              <input
+                onChange={(e) => {
+                  setMinutos(e.target.value);
+                }}
+                type="text"
+                className="bg-neutral-800 rounded-xl h-8 w-12 text-center"
               />
             </div>
             <div className={`flex flex-col gap-4`}>
-              <button className="bg-green-500 rounded-2xl px-4 py-2 capitalize">
+              <button
+                onClick={() => {
+                  handleSubmit();
+                }}
+                className="bg-green-500 rounded-2xl px-4 py-2 capitalize"
+              >
                 add match
               </button>
             </div>
+            <span className={`my-2`}>{msg}</span>
           </div>
           <div
             className={`border rounded-2xl flex flex-col w-full gap-4 items-center p-8`}

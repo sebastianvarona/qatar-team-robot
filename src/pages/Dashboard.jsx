@@ -348,6 +348,9 @@ export default function Dashboard() {
                           {m.match.local}
                         </label>
                         <input
+                          onLoad={(e) => {
+                            setPuntosLocal(e.target.value);
+                          }}
                           onChange={(e) => {
                             setPuntosLocal(e.target.value);
                           }}
@@ -357,6 +360,9 @@ export default function Dashboard() {
                         />
                         <span className="font-bold flex items-center">VS</span>
                         <input
+                          onLoad={(e) => {
+                            setPuntosVisitante(e.target.value);
+                          }}
                           onChange={(e) => {
                             setPuntosVisitante(e.target.value);
                           }}
