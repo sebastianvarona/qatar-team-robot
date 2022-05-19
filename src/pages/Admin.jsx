@@ -180,7 +180,7 @@ export default function Admin() {
         month: mes,
         hour: horas,
         minutes: minutos,
-        group: group,
+        group: 'Grupo ' + group,
       })
       .then(function (response) {
         console.log(response);
