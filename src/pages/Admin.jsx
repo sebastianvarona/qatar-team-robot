@@ -66,7 +66,13 @@ export default function Admin() {
               showUserD ? '' : 'hidden'
             }`}
           >
-            <button className="block hover:bg-purple-700 py-2 px-4">
+            <button
+              onClick={() => {
+                window.sessionStorage.removeItem('userId');
+                navigate(`/sign-in`);
+              }}
+              className="block hover:bg-purple-700 py-2 px-4"
+            >
               logout
             </button>
           </div>
