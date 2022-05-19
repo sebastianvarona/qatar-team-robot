@@ -178,7 +178,7 @@ export default function Dashboard() {
   };
   const putPrediction = (m) => {
     axios
-      .post(
+      .put(
         'https://sebasrestapi.azurewebsites.net/prediction/running/' +
           m.prediction._id,
         {
