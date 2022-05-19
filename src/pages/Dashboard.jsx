@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
   const [showUserD, setShowUserD] = useState(false);
-  const [activeTab, setActiveTab] = useState('');
+  const [activeTab, setActiveTab] = useState('ranking');
   const [ranking, setRanking] = useState([]);
   const [aMatches, setAMatches] = useState([]);
   const [pMatches, setPMatches] = useState([]);
