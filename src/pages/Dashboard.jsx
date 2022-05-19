@@ -95,6 +95,25 @@ export default function Dashboard() {
     );
   };
 
+  const createPrediction = (m) => {
+    axios
+      .post('https://sebasrestapi.azurewebsites.net/prediction', {
+        matchId: m._id,
+        userId: window.sessionStorage.getItem('userId'),
+        local_goals: puntosLocal,
+        visit_goals: puntosVisitante,
+      })
+      .then(function (response) {
+        console.log(response);
+        if (response.status === 201) {
+          setMsgMatches('Created successfully');
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     axios({
       method: 'get',
@@ -228,25 +247,7 @@ export default function Dashboard() {
                 <div className={`flex flex-col gap-4`}>
                   <button
                     onClick={() => {
-                      axios
-                        .post(
-                          'https://sebasrestapi.azurewebsites.net/prediction',
-                          {
-                            matchId: m._id,
-                            userId: window.sessionStorage.getItem('userId'),
-                            local_goals: puntosLocal,
-                            visit_goals: puntosVisitante,
-                          }
-                        )
-                        .then(function (response) {
-                          console.log(response);
-                          if (response.status === 201) {
-                            setMsgMatches('Created successfully');
-                          }
-                        })
-                        .catch(function (error) {
-                          console.log(error);
-                        });
+                      createPrediction(m);
                     }}
                     className="bg-green-500 rounded-2xl px-4 py-2 capitalize"
                   >
