@@ -220,6 +220,7 @@ export default function Admin() {
         console.log(response);
         if (response.status === 201) {
           setMsg('Registrado correctamente');
+          getMatches();
         }
       })
       .catch(function (error) {
