@@ -129,7 +129,7 @@ export default function Dashboard() {
     axios({
       method: 'get',
       url:
-        'https://sebasrestapi.azurewebsites.net/prediction/' +
+        'https://sebasrestapi.azurewebsites.net/prediction/running/' +
         window.sessionStorage.getItem('userId'),
     }).then(function (response) {
       setPMatches(response.data);
@@ -178,16 +178,20 @@ export default function Dashboard() {
   };
   const putPrediction = (m) => {
     axios
-      .post('https://sebasrestapi.azurewebsites.net/prediction', {
-        matchId: m._id,
-        userId: window.sessionStorage.getItem('userId'),
-        local_goals: puntosLocal,
-        visit_goals: puntosVisitante,
-      })
+      .post(
+        'https://sebasrestapi.azurewebsites.net/prediction/running/' +
+          m.prediction._id,
+        {
+          matchId: m.match._id,
+          userId: window.sessionStorage.getItem('userId'),
+          local_goals: puntosLocal,
+          visit_goals: puntosVisitante,
+        }
+      )
       .then(function (response) {
         console.log(response);
         if (response.status === 201) {
-          setMsgMatches('Created successfully');
+          setMsgMatches('Updated successfully');
         } else if (response.status === 404) {
           setMsgMatches(response.data.message);
         }
@@ -343,28 +347,43 @@ export default function Dashboard() {
                         <label className="capitalize text-xl">
                           {m.match.local}
                         </label>
-                        <span className="text-xl">
-                          ({' '}
-                          <span className="font-bold text-xl">
-                            {m.prediction.local_goals}
-                          </span>{' '}
-                          )
-                        </span>
+                        <input
+                          onChange={(e) => {
+                            setPuntosVisitante(e.target.value);
+                          }}
+                          defaultValue={m.prediction.local_goals}
+                          type="text"
+                          className="bg-neutral-800 rounded-xl h-8 w-12 text-center"
+                        />
                         <span className="font-bold flex items-center">VS</span>
-                        <span className="text-xl">
-                          ({' '}
-                          <span className="font-bold text-xl">
-                            {m.prediction.visit_goals}
-                          </span>{' '}
-                          )
-                        </span>
+                        <input
+                          onChange={(e) => {
+                            setPuntosVisitante(e.target.value);
+                          }}
+                          defaultValue={m.prediction.visit_goals}
+                          type="text"
+                          className="bg-neutral-800 rounded-xl h-8 w-12 text-center"
+                        />
                         <label className="capitalize text-xl">
                           {m.match.visit}
                         </label>
                       </div>
                       <div className={`flex flex-col gap-4`}>
-                        <button className="bg-orange-500 rounded-2xl px-4 py-2 capitalize">
+                        <button
+                          onClick={() => {
+                            putPrediction(m);
+                          }}
+                          className="bg-orange-500 rounded-2xl px-2 py-2 capitalize"
+                        >
                           edit prediction
+                        </button>
+                        <button
+                          onClick={() => {
+                            deletePrediction(m);
+                          }}
+                          className="bg-red-500 rounded-2xl px-2 py-2 capitalize"
+                        >
+                          delete prediction
                         </button>
                         <span>
                           {m.match.month +
