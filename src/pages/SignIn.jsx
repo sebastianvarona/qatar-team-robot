@@ -30,8 +30,15 @@ export default function SignIn() {
         console.log(response);
         if (response.data.status === 1) {
           window.sessionStorage.setItem('userId', response.data.userId);
-          console.log(response.data.userId);
-          navigate(`/dashboard`);
+          if (response.data.isAdmin) {
+            window.sessionStorage.setItem('isAdmin', response.data.isAdmin);
+            console.log(response.data.userId);
+            console.log(response.data.isAdmin);
+            navigate(`/admin`);
+          } else {
+            console.log(response.data.userId);
+            navigate(`/dashboard`);
+          }
         }
         if (response.data.status === 2) {
           setErrMes('Incorrect password');

@@ -71,6 +71,7 @@ export default function Admin() {
             <button
               onClick={() => {
                 window.sessionStorage.removeItem('userId');
+                window.sessionStorage.removeItem('isAdmin');
                 navigate(`/sign-in`);
               }}
               className="block hover:bg-purple-700 py-2 px-4"

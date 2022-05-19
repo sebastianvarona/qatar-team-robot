@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 function Footer() {
+  const [isAdmin, setIsAdmin] = useState(false);
+  useEffect(() => {
+    if (window.sessionStorage.getItem('isAdmin')) {
+      setIsAdmin(true);
+    }
+  }, []);
+
   return (
     <footer className="mx-12 p-4 bg-purple-600/75 shadow md:px-6 md:py-8 rounded-t-3xl">
       <div className="sm:flex sm:items-center sm:justify-between">
@@ -40,7 +47,9 @@ function Footer() {
           <li className="hover:underline text-lg">Dashboard page</li>
         </Link>
         <Link to={`/admin`}>
-          <li className="hover:underline text-lg">Admin page</li>
+          <li className={`hover:underline text-lg ${isAdmin ? '' : 'hidden'}`}>
+            Admin page
+          </li>
         </Link>
       </ul>
       <span className="block text-sm sm:text-center dark:text-gray-400">
