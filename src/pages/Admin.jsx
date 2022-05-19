@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Footer from '../components/Footer';
 import background from '../images/qatarbg5.jpg';
 import axios from 'axios';
@@ -345,11 +345,11 @@ export default function Admin() {
                   {aMatches.map((m, i) => {
                     return (
                       <tr>
-                        <td className={`px-8 py-2`}>{i + 1}</td>
-                        <td className={`px-8 py-2`}>
+                        <td className={`px-4 py-2`}>{i + 1}</td>
+                        <td className={`px-4 py-2`}>
                           <div className={`w-full gap-4 items-center`}>
                             <div className={`flex gap-4`}>
-                              <label className="capitalize text-xl">
+                              <label className="capitalize text-lg">
                                 {m.local}
                               </label>
                               <input
@@ -375,7 +375,7 @@ export default function Admin() {
                             </div>
                           </div>
                         </td>
-                        <td className={`px-8 py-2`}>
+                        <td className={`px-4 py-2`}>
                           <button
                             onClick={() => {
                               endMatch(m);
